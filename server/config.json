@@ -1,0 +1,7 @@
+{
+  "port": 8000,
+  "clientUrl": "http://localhost:3000",
+  "mongoUrl": "mongodb://127.0.0.1:27017/backend",
+  "access_secret": "very_secret_access_token",
+  "refresh_secret": "very_secret_refresh_token"
+}
