@@ -1,5 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {Context} from "../index";
+import {Link} from "react-router-dom";
 
 const LoginForm = () => {
     const [email, setEmail] = useState("");
@@ -21,10 +22,10 @@ const LoginForm = () => {
                 placeholder="password"
             />
             <button onClick={() => store.login(email, password)}>
-                Логин
+                <Link to="/app">Логин</Link>
             </button>
             <button onClick={() => store.registration(email, password)}>
-                Регистрация
+                <Link to="/app">Регистрация</Link>
             </button>
         </div>
     );
