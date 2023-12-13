@@ -36,7 +36,7 @@ const Home = () => {
                 </nav>
             </div>
             <div className="login">
-                <Link to="/login">login</Link>
+                <Link to="/login">Логин</Link>
             </div>
         </header>
     );

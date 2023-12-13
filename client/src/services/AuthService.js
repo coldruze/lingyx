@@ -1,8 +1,8 @@
 import $api from "../http";
 
 export default class AuthService {
-    static async registration(email, password) {
-        return $api.post("/register", {email, password});
+    static async registration(firstName, secondName, email, password) {
+        return $api.post("/register", {firstName, secondName, email, password});
     }
 
     static async login(email, password) {

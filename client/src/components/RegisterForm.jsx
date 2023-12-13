@@ -2,7 +2,9 @@ import React, {useContext, useState} from 'react';
 import {Context} from "../index";
 import {Link} from "react-router-dom";
 
-const LoginForm = () => {
+const RegisterForm = () => {
+    const [firstName, setFirstName] = useState("");
+    const [secondName, setSecondName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const {store} = useContext(Context);
@@ -11,6 +13,18 @@ const LoginForm = () => {
         <div className="auth">
             <div className="auth-form">
                 <h1>Привет)</h1>
+                <input className="auth__input"
+                       onChange={e => setFirstName(e.target.value)}
+                       value={firstName}
+                       type="text"
+                       placeholder="Фамилия"
+                />
+                <input className="auth__input"
+                       onChange={e => setSecondName(e.target.value)}
+                       value={secondName}
+                       type="text"
+                       placeholder="Имя"
+                />
                 <input className="auth__input"
                        onChange={e => setEmail(e.target.value)}
                        value={email}
@@ -23,18 +37,12 @@ const LoginForm = () => {
                        type="password"
                        placeholder="Пароль"
                 />
-                <button className="auth__button__login" onClick={() => store.login(email, password)}>
-                    <Link to="/app" className="auth__button__link">Логин</Link>
+                <button className="auth__button__register" onClick={() => store.registration(firstName, secondName, email, password)}>
+                    <Link to="/app" className="auth__button__link">Регистрация</Link>
                 </button>
-                <div className="auth-register">
-                    <p>Ещё не зарегистрированы?</p>
-                    <button className="auth-register__button">
-                        <Link to={"/register"} className="auth-register__link">Регистрация</Link>
-                    </button>
-                </div>
             </div>
         </div>
     );
 };
 
-export default LoginForm;
+export default RegisterForm;

@@ -5,15 +5,16 @@ const UserModel = require("../models/userModel"),
     TokenService = require("../services/tokenService")
 
 class UserService {
-    async register(email, password) {
+    async register(firstName, secondName, email, password) {
         const user = await UserModel.findOne({email});
 
         if (user) {
             throw ApiError.BadRequest("Пользователь с такой почтой уже существует");
         }
 
-        const hashPassword = await bcrypt.hash(password, 5);
-        const newUser = await UserModel.create({email, password: hashPassword});
+        const salt = await bcrypt.genSalt(5);
+        const hashPassword = await bcrypt.hash(password, salt);
+        const newUser = await UserModel.create({firstName, secondName, email, password: hashPassword});
         const userData = new UserDto(newUser);
         const tokens = TokenService.generateTokens({...userData});
         await TokenService.saveToken(userData.id, tokens.refreshToken);
