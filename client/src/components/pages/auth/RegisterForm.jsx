@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Context} from "../index";
+import {Context} from "../../../index";
 import {Link} from "react-router-dom";
 
 const RegisterForm = () => {
@@ -17,13 +17,13 @@ const RegisterForm = () => {
                        onChange={e => setFirstName(e.target.value)}
                        value={firstName}
                        type="text"
-                       placeholder="Фамилия"
+                       placeholder="Имя"
                 />
                 <input className="auth__input"
                        onChange={e => setSecondName(e.target.value)}
                        value={secondName}
                        type="text"
-                       placeholder="Имя"
+                       placeholder="Фамилия"
                 />
                 <input className="auth__input"
                        onChange={e => setEmail(e.target.value)}
@@ -37,9 +37,18 @@ const RegisterForm = () => {
                        type="password"
                        placeholder="Пароль"
                 />
-                <button className="auth__button__register" onClick={() => store.registration(firstName, secondName, email, password)}>
-                    <Link to="/app" className="auth__button__link">Регистрация</Link>
-                </button>
+                <Link to="/app" className="auth__button-link">
+                    <button className="auth__button"
+                            onClick={() => store.registration(firstName, secondName, email, password)}>
+                        Регистрация
+                    </button>
+                </Link>
+                <div className="auth-register">
+                    <p>Уже есть аккаунт?</p>
+                    <p className="auth-register__button">
+                        <Link to="/login" className="auth-register__link">Авторизоваться</Link>
+                    </p>
+                </div>
             </div>
         </div>
     );

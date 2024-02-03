@@ -1,10 +1,10 @@
 import React, {createContext} from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import Store from "./store/store";
+import UserStore from "./store/userStore";
 import {BrowserRouter} from "react-router-dom";
 
-const store = new Store();
+const store = new UserStore();
 
 export const Context = createContext({
     store

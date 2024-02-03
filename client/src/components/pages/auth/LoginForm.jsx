@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Context} from "../index";
+import {Context} from "../../../index";
 import {Link} from "react-router-dom";
 
 const LoginForm = () => {
@@ -23,14 +23,16 @@ const LoginForm = () => {
                        type="password"
                        placeholder="Пароль"
                 />
-                <button className="auth__button__login" onClick={() => store.login(email, password)}>
-                    <Link to="/app" className="auth__button__link">Логин</Link>
-                </button>
+                <Link to="/app" className="auth__button-link">
+                    <button className="auth__button" onClick={() => store.login(email, password)}>
+                        Логин
+                    </button>
+                </Link>
                 <div className="auth-register">
                     <p>Ещё не зарегистрированы?</p>
-                    <button className="auth-register__button">
-                        <Link to={"/register"} className="auth-register__link">Регистрация</Link>
-                    </button>
+                    <p className="auth-register__button">
+                        <Link to="/register" className="auth-register__link">Регистрация</Link>
+                    </p>
                 </div>
             </div>
         </div>

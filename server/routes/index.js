@@ -3,7 +3,8 @@ const {Router} = require("express"),
     {check, validationResult} = require("express-validator"),
     UserController = require("../controllers/userController"),
     auth = require("../middleware/auth"),
-    ApiError = require("../exceptions/apiError")
+    ApiError = require("../exceptions/apiError"),
+    TestController = require("../controllers/testController")
 
 router.post("/register",
     [
@@ -23,5 +24,9 @@ router.post("/login", UserController.login);
 router.get("/refresh", UserController.refresh)
 router.get("/users", auth, UserController.getAllUsers);
 router.get("/logout", UserController.logout);
+
+router.post("/addquestion", TestController.addQuestion);
+router.post("/addtest", TestController.addTest);
+router.post("/gettest", TestController.getTest);
 
 module.exports = router;
