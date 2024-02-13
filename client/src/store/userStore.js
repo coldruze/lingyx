@@ -2,11 +2,15 @@ import {makeAutoObservable} from "mobx";
 import AuthService from "../services/AuthService";
 import axios from "axios";
 import {API_URL} from "../http";
+import TestService from "../services/TestService";
 
 export default class UserStore {
     user = {};
     isAuth = false;
     isLoading = false;
+    testsTitles = [];
+    tests = {};
+    questions = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -22,6 +26,18 @@ export default class UserStore {
 
     setLoading(bool) {
         this.isLoading = bool;
+    }
+
+    setTestsTitles(titles) {
+        this.testsTitles = titles;
+    }
+
+    setTests(tests) {
+        this.tests = tests;
+    }
+
+    setQuestions(questions) {
+        this.questions = questions;
     }
 
     async registration(firstName, secondName, email, password) {
@@ -75,5 +91,32 @@ export default class UserStore {
         } finally {
             this.setLoading(false);
         }
+    }
+
+    async getAllTests() {
+        try {
+            const response = await TestService.getAllTests();
+            const testsData = response.data;
+            let titles = [];
+            let tests = {};
+
+            for (let i = 0; i < testsData.length; i++) {
+                let title = testsData[i]["title"];
+                tests[title] = testsData[i]["questions"];
+                titles.push(title);
+            }
+
+            this.setTestsTitles(titles);
+            this.setTests(tests);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async getQuestionsByTestTitle(title) {
+        const questionsIds = this.tests[title];
+        const response = await TestService.getQuestions(questionsIds);
+        const questions = response.data;
+        this.setQuestions(questions);
     }
 }

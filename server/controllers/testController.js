@@ -23,12 +23,33 @@ class TestController {
         }
     }
 
-    async getTest(req, res, next) {
+    async getAllTests(req, res, next) {
         try {
-            const {title} = req.body;
-            const testData = await TestService.getTest(title);
+            const tests = await TestService.getAllTests();
 
-            res.send(testData);
+            return res.send(tests);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getQuestionById(req, res, next) {
+        try {
+            const {id} = req.body;
+            const question = await TestService.getQuestionById(id);
+
+            return res.send(question);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getAllQuestionsById(req, res, next) {
+        try {
+            const {ids} = req.body;
+            const questions = await TestService.getAllQuestionsById(ids);
+
+            return res.send(questions);
         } catch (e) {
             next(e);
         }

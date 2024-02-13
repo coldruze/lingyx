@@ -27,6 +27,8 @@ router.get("/logout", UserController.logout);
 
 router.post("/addquestion", TestController.addQuestion);
 router.post("/addtest", TestController.addTest);
-router.post("/gettest", TestController.getTest);
+router.get("/tests", TestController.getAllTests);
+router.post("/getquestion", TestController.getQuestionById);
+router.post("/getallquestions", TestController.getAllQuestionsById);
 
 module.exports = router;
