@@ -6,6 +6,7 @@ import RegisterForm from "../components/pages/auth/RegisterForm";
 import Profile from "../components/pages/application/Profile";
 import Progress from "../components/pages/application/Progress";
 import Tests from "../components/pages/application/Tests";
+import TestPage from "../components/pages/application/TestPage";
 
 export function AuthRoutes() {
     return (
@@ -17,6 +18,7 @@ export function AuthRoutes() {
             <Route path="profile" element={<Profile/>}/>
             <Route path="progress" element={<Progress/>}/>
             <Route path="tests" element={<Tests/>}/>
+            <Route path="tests/:title" element={<TestPage/>}/>
         </Routes>
     );
 }
