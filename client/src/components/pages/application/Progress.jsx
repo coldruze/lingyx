@@ -4,8 +4,20 @@ import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
 import React from "react";
 import {observer} from "mobx-react-lite";
+import {useAuth} from "../../../utils/authUtils";
+import LoginForm from "../auth/LoginForm";
 
 const Progress = () => {
+    const {isAuth} = useAuth();
+
+    if (!isAuth) {
+        return (
+            <div>
+                <LoginForm/>
+            </div>
+        );
+    }
+
     return (
         <div className="application">
             <div className="sidebar">

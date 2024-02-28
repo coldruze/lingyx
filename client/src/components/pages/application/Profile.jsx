@@ -22,7 +22,7 @@ const Profile = () => {
         <div className="application">
             <div className="sidebar">
                 <div className="sidebar__title">
-                    LingyX
+                        LingyX
                 </div>
                 <div>
                     <Link to="/tests" className="sidebar__link">

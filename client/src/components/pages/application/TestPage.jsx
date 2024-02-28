@@ -1,13 +1,41 @@
 import {Observer} from "mobx-react-lite";
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
 import {Context} from "../../../index";
 import {Link} from "react-router-dom";
 import TestIcon from "../../../assets/app/test-icon.png";
 import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
+import {useAuth} from "../../../utils/authUtils";
+import LoginForm from "../auth/LoginForm";
 
 const TestPage = () => {
     const {store} = useContext(Context);
+    const {isAuth} = useAuth();
+    const [selectedOptions, setSelectedOptions] = useState(Array(store.questions.length).fill(null));
+
+    const handleOptionSelect = (questionIndex, optionIndex) => {
+        const updatedOptions = [...selectedOptions];
+        updatedOptions[questionIndex] = optionIndex;
+        setSelectedOptions(updatedOptions);
+    };
+
+    const calculateScore = () => {
+        let score = 0;
+        store.questions.forEach((question, index) => {
+            if (selectedOptions[index] === question.correctOption) {
+                score++;
+            }
+        });
+        return score;
+    };
+
+    if (!isAuth) {
+        return (
+            <div>
+                <LoginForm/>
+            </div>
+        );
+    }
 
     return (
         <Observer>
@@ -41,18 +69,25 @@ const TestPage = () => {
                             {store.questions.map((item, index) => (
                                 <div key={index}>
                                     <div>
-                                        {item["text"]}
+                                        {item.text}
                                     </div>
                                     <div>
-                                        {item["options"].map((option, optionIndex) => (
+                                        {item.options.map((option, optionIndex) => (
                                             <div key={optionIndex}>
-                                                {option}
+                                                <input
+                                                    type="radio"
+                                                    name={`question${index}`}
+                                                    checked={selectedOptions[index] === optionIndex}
+                                                    onChange={() => handleOptionSelect(index, optionIndex)}
+                                                />
+                                                <label>{option}</label>
                                             </div>
                                         ))}
                                     </div>
                                 </div>
                             ))}
                         </div>
+                        <button onClick={() => alert(`Your score: ${calculateScore()}/${store.questions.length}`)}>Завершить тест</button>
                     </div>
                 </div>
             )}

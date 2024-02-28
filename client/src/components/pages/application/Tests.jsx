@@ -5,10 +5,21 @@ import ProfileIcon from "../../../assets/app/profile-icon.png";
 import React, {useContext} from "react";
 import {observer} from "mobx-react-lite";
 import {Context} from "../../../index";
+import {useAuth} from "../../../utils/authUtils";
+import LoginForm from "../auth/LoginForm";
 
 const Tests = () => {
     const {store} = useContext(Context);
     const navigate = useNavigate();
+    const {isAuth} = useAuth();
+
+    if (!isAuth) {
+        return (
+            <div>
+                <LoginForm/>
+            </div>
+        );
+    }
 
     const handleTestClick = async (title) => {
         await store.getQuestionsByTestTitle(title);
