@@ -9,8 +9,10 @@ export default class UserStore {
     isAuth = false;
     isLoading = false;
     testsTitles = [];
+    currentTestTitle = "";
     tests = {};
     questions = [];
+    results = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -32,12 +34,19 @@ export default class UserStore {
         this.testsTitles = titles;
     }
 
+    setCurrentTestTitle(title) {
+        this.currentTestTitle = title;
+    }
+
     setTests(tests) {
         this.tests = tests;
     }
 
     setQuestions(questions) {
         this.questions = questions;
+    }
+    setResults(results) {
+        this.results = results;
     }
 
     async registration(firstName, secondName, email, password) {
@@ -114,9 +123,34 @@ export default class UserStore {
     }
 
     async getQuestionsByTestTitle(title) {
-        const questionsIds = this.tests[title];
-        const response = await TestService.getQuestions(questionsIds);
-        const questions = response.data;
-        this.setQuestions(questions);
+        try {
+            const questionsIds = this.tests[title];
+            const response = await TestService.getQuestions(questionsIds);
+            const questions = response.data;
+            this.setQuestions(questions);
+            this.setCurrentTestTitle(title);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async sendTestResult(userId, title, score) {
+        try {
+            await TestService.sendTestResult(userId, title, score);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async getTestsResult(userId) {
+        try {
+            const response = await TestService.getTestsResult(userId);
+            const results = response.data;
+            this.setResults(results);
+
+            console.log(results);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
     }
 }

@@ -8,7 +8,7 @@ import {useAuth} from "../../../utils/authUtils";
 import LoginForm from "../auth/LoginForm";
 
 const Progress = () => {
-    const {isAuth} = useAuth();
+    const {store, isAuth} = useAuth();
 
     if (!isAuth) {
         return (
@@ -25,13 +25,13 @@ const Progress = () => {
                     LingyX
                 </div>
                 <div>
-                    <Link to="/tests" className="sidebar__link">
+                    <Link to="/tests" className="sidebar__link" onClick={() => store.getAllTests()}>
                         <img src={TestIcon} alt=""/>
                         <span>Тесты</span>
                     </Link>
                 </div>
                 <div>
-                    <Link to="/progress" className="sidebar__link">
+                    <Link to="/progress" className="sidebar__link" onClick={() => store.getTestsResult(store.user.id)}>
                         <img src={ProgressIcon} alt=""/>
                         <span>Прогресс</span>
                     </Link>
@@ -42,6 +42,14 @@ const Progress = () => {
                         <span>Профиль</span>
                     </Link>
                 </div>
+            </div>
+            <div className="progress">
+                {store.results.map((result, resultIndex) => (
+                    <div key={resultIndex}>
+                        <div>{result.title}</div>
+                        <div>{result.score}</div>
+                    </div>
+                ))}
             </div>
         </div>
     );

@@ -27,7 +27,7 @@ const Profile = () => {
                 <div>
                     <Link to="/tests" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
-                        <span>Тесты</span>
+                        <span onClick={() => store.getAllTests()}>Тесты</span>
                     </Link>
                 </div>
                 <div>

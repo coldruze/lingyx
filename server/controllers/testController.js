@@ -54,6 +54,26 @@ class TestController {
             next(e);
         }
     }
+
+    async sendTestResult(req, res, next) {
+        try {
+            const {userId, title, score} = req.body;
+            await TestService.sendTestResult(userId, title, score);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getTestsResult(req, res, next) {
+        try {
+            const {userId} = req.body;
+            const results = await TestService.getTestsResult(userId);
+
+            return res.send(results);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new TestController();

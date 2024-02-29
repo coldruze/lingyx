@@ -8,4 +8,12 @@ export default class TestService {
     static async getQuestions(ids) {
         return $api.post("/getallquestions", {ids});
     }
+
+    static async sendTestResult(userId, title, score) {
+        return $api.post("/sendtestresult", {userId, title, score});
+    }
+
+    static async getTestsResult(userId) {
+        return $api.post("/gettestsresult", {userId});
+    }
 }

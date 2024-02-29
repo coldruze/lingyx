@@ -1,6 +1,5 @@
 import {Observer} from "mobx-react-lite";
-import React, {useContext, useState} from "react";
-import {Context} from "../../../index";
+import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import TestIcon from "../../../assets/app/test-icon.png";
 import ProgressIcon from "../../../assets/app/progress-icon.png";
@@ -9,9 +8,10 @@ import {useAuth} from "../../../utils/authUtils";
 import LoginForm from "../auth/LoginForm";
 
 const TestPage = () => {
-    const {store} = useContext(Context);
-    const {isAuth} = useAuth();
+    const { store, isAuth } = useAuth();
     const [selectedOptions, setSelectedOptions] = useState(Array(store.questions.length).fill(null));
+    const [testCompleted, setTestCompleted] = useState(false);
+    const [score, setScore] = useState(0);
 
     const handleOptionSelect = (questionIndex, optionIndex) => {
         const updatedOptions = [...selectedOptions];
@@ -27,6 +27,14 @@ const TestPage = () => {
             }
         });
         return score;
+    };
+
+    const handleTestCompletion = async () => {
+        const testScore = calculateScore();
+        setScore(testScore);
+        setTestCompleted(true);
+        console.log(testScore.toString() + "/" + store.questions.length.toString())
+        await store.sendTestResult(store.user.id, store.currentTestTitle, testScore.toString() + "/" + store.questions.length.toString());
     };
 
     if (!isAuth) {
@@ -87,7 +95,8 @@ const TestPage = () => {
                                 </div>
                             ))}
                         </div>
-                        <button onClick={() => alert(`Your score: ${calculateScore()}/${store.questions.length}`)}>Завершить тест</button>
+                        {!testCompleted && <button onClick={handleTestCompletion}>Завершить тест</button>}
+                        {testCompleted && <div>Результат: {score}/{store.questions.length}</div>}
                     </div>
                 </div>
             )}

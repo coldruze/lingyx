@@ -1,8 +1,9 @@
 const QuestionModel = require("../models/questionModel"),
+    QuestionDto = require("../dto/questionDto"),
     TestModel = require("../models/testModel"),
     TestDto = require("../dto/testDto"),
-    UserDto = require("../dto/userDto"),
-    QuestionDto = require("../dto/questionDto");
+    ResultModel = require("../models/resultModel"),
+    ResultDto = require("../dto/resultDto");
 
 class TestService {
     async addQuestion(text, options, correctOption) {
@@ -12,9 +13,7 @@ class TestService {
             throw Error("Такой вопрос уже существует");
         }
 
-        const newQuestion = await QuestionModel.create({text, options, correctOption});
-
-        return newQuestion;
+        return await QuestionModel.create({text, options, correctOption});
     }
 
     async addTest(title, questions) {
@@ -24,9 +23,7 @@ class TestService {
             throw Error("Такой вопрос уже существует");
         }
 
-        const newTest = await TestModel.create({title, questions});
-
-        return newTest;
+        return await TestModel.create({title, questions});
     }
 
     async getAllTests() {
@@ -55,6 +52,20 @@ class TestService {
         }
 
         return questions;
+    }
+
+    async sendTestResult(userId, title, score) {
+        await ResultModel.findOneAndUpdate({userId, title}, {score}, {upsert: true});
+    }
+
+    async getTestsResult(userId) {
+        let results = await ResultModel.find({userId});
+
+        for (let i = 0; i < results.length; i++) {
+            results[i] = new ResultDto(results[i]);
+        }
+
+        return results;
     }
 }
 

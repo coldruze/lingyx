@@ -14,7 +14,6 @@ router.post("/register",
 
             if (!errors.isEmpty()) {
                 throw ApiError.BadRequest("Пароль должен содержать от 6 до 20 символов");
-                // return res.status(400).send("Пароль должен содержать от 6 до 20 символов");
             }
             next();
         },
@@ -30,5 +29,7 @@ router.post("/addtest", TestController.addTest);
 router.get("/tests", TestController.getAllTests);
 router.post("/getquestion", TestController.getQuestionById);
 router.post("/getallquestions", TestController.getAllQuestionsById);
+router.post("/sendtestresult", TestController.sendTestResult);
+router.post("/gettestsresult", TestController.getTestsResult);
 
 module.exports = router;
