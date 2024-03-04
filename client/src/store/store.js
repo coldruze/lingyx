@@ -3,8 +3,9 @@ import AuthService from "../services/AuthService";
 import axios from "axios";
 import {API_URL} from "../http";
 import TestService from "../services/TestService";
+import UserService from "../services/UserService";
 
-export default class UserStore {
+export default class Store {
     user = {};
     isAuth = false;
     isLoading = false;
@@ -85,6 +86,15 @@ export default class UserStore {
         }
     }
 
+    async edit(firstName, secondName, email) {
+        try {
+            const response = await UserService.edit(firstName, secondName, email, this.user.email);
+            console.log(response);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
     async checkAuth() {
         this.setLoading(true);
 
@@ -147,8 +157,6 @@ export default class UserStore {
             const response = await TestService.getTestsResult(userId);
             const results = response.data;
             this.setResults(results);
-
-            console.log(results);
         } catch (e) {
             console.log(e.response?.data?.message);
         }

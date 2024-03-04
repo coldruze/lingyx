@@ -7,6 +7,7 @@ import Profile from "../components/pages/application/Profile";
 import Progress from "../components/pages/application/Progress";
 import Tests from "../components/pages/application/Tests";
 import TestPage from "../components/pages/application/TestPage";
+import EditProfile from "../components/pages/application/EditProfile";
 
 export function AuthRoutes() {
     return (
@@ -16,6 +17,7 @@ export function AuthRoutes() {
             <Route path="login" element={<LoginForm/>}/>
             <Route path="app" element={<Application/>}/>
             <Route path="profile" element={<Profile/>}/>
+            <Route path="profile/edit" element={<EditProfile/>}/>
             <Route path="progress" element={<Progress/>}/>
             <Route path="tests" element={<Tests/>}/>
             <Route path="tests/:title" element={<TestPage/>}/>

@@ -48,6 +48,7 @@ const Profile = () => {
                 <h1>{`Фамилия: ${store.user.secondName}`}</h1>
                 <h1>{`Почта: ${store.user.email}`}</h1>
                 <button onClick={() => store.logout()}><Link to="/">Выйти</Link></button>
+                <Link to="/profile/edit">Редактировать</Link>
                 <Link to="/">На главную</Link>
             </div>
         </div>
