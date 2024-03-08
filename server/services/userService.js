@@ -75,6 +75,18 @@ class UserService {
     async logout(refreshToken) {
         return await TokenService.removeToken(refreshToken);
     }
+
+    async editProfile(firstName, secondName, email, oldEmail) {
+        const user = await UserModel.findOne({email: oldEmail});
+
+        if (!user) {
+            throw ApiError.BadRequest("Пользователь не найден");
+        }
+
+        const userData = await UserModel.findOneAndUpdate({email: oldEmail}, {firstName, secondName, email});
+
+        return userData;
+    }
 }
 
 module.exports = new UserService();

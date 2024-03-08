@@ -23,6 +23,7 @@ router.post("/login", UserController.login);
 router.get("/refresh", UserController.refresh)
 router.get("/users", auth, UserController.getAllUsers);
 router.get("/logout", UserController.logout);
+router.post("/editprofile", UserController.editProfile);
 
 router.post("/addquestion", TestController.addQuestion);
 router.post("/addtest", TestController.addTest);

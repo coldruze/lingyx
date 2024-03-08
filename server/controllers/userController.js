@@ -62,6 +62,17 @@ class UserController {
             next(e);
         }
     }
+
+    async editProfile(req, res, next) {
+        try {
+            const {firstName, secondName, email, oldEmail} = req.body;
+            const userData = await UserService.editProfile(firstName, secondName, email, oldEmail);
+
+            return res.send(userData);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new UserController();
