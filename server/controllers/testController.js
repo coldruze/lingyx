@@ -14,8 +14,9 @@ class TestController {
 
     async addTest(req, res, next) {
         try {
-            const {title, questions} = req.body;
-            const testData = await TestService.addTest(title, questions);
+            const {testTitle, questionsId} = req.body;
+            console.log(req.body)
+            const testData = await TestService.addTest(testTitle, questionsId);
 
             return res.send(testData);
         } catch (e) {
@@ -70,6 +71,38 @@ class TestController {
             const results = await TestService.getTestsResult(userId);
 
             return res.send(results);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async getAllQuestions(req, res, next) {
+        try {
+            const questions = await TestService.getAllQuestions();
+
+            return res.send(questions);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async deleteTest(req, res, next) {
+        try {
+            const {testTitle} = req.body;
+            const data = await TestService.deleteTest(testTitle);
+
+            return res.send(data);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async deleteQuestion(req, res, next) {
+        try {
+            const {questionId} = req.body;
+            const data = await TestService.deleteQuestion(questionId);
+
+            return res.send(data);
         } catch (e) {
             next(e);
         }

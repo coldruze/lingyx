@@ -20,7 +20,7 @@ class TestService {
         const test = await TestModel.findOne({title});
 
         if (test) {
-            throw Error("Такой вопрос уже существует");
+            throw Error("Такой тест уже существует");
         }
 
         return await TestModel.create({title, questions});
@@ -66,6 +66,18 @@ class TestService {
         }
 
         return results;
+    }
+
+    async getAllQuestions() {
+        return QuestionModel.find();
+    }
+
+    async deleteTest(testTitle) {
+        return TestModel.deleteOne({title: testTitle});
+    }
+
+    async deleteQuestion(questionId) {
+        return QuestionModel.deleteOne({_id: questionId});
     }
 }
 

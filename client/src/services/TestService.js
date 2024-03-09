@@ -6,7 +6,7 @@ export default class TestService {
     }
 
     static async getQuestions(ids) {
-        return $api.post("/getallquestions", {ids});
+        return $api.post("/getquestions", {ids});
     }
 
     static async sendTestResult(userId, title, score) {
@@ -15,5 +15,25 @@ export default class TestService {
 
     static async getTestsResult(userId) {
         return $api.post("/gettestsresult", {userId});
+    }
+
+    static async getAllQuestions() {
+        return $api.get("/getallquestions");
+    }
+
+    static async createNewTest(testTitle, questionsId) {
+        return $api.post("/addtest", {testTitle, questionsId});
+    }
+
+    static async deleteTest(testTitle) {
+        return $api.post("/deletetest", {testTitle});
+    }
+
+    static async createNewQuestion(text, options, correctOption) {
+        return $api.post("/addquestion", {text, options, correctOption});
+    }
+
+    static async deleteQuestion(questionId) {
+        return $api.post("/deletequestion", {questionId});
     }
 }

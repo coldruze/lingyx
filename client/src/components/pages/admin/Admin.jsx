@@ -1,17 +1,14 @@
 import {useAuth} from "../../../utils/authUtils";
 import LoginForm from "../auth/LoginForm";
-import React, {useState} from "react";
+import React from "react";
 import {Link} from "react-router-dom";
 import TestIcon from "../../../assets/app/test-icon.png";
 import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
 import {observer} from "mobx-react-lite";
 
-const EditProfile = () => {
+const Admin = () => {
     const {store, isAuth} = useAuth();
-    const [firstName, setFirstName] = useState(store.user.firstName);
-    const [secondName, setSecondName] = useState(store.user.secondName);
-    const [email, setEmail] = useState(store.user.email);
 
     if (!isAuth) {
         return (
@@ -19,6 +16,15 @@ const EditProfile = () => {
                 <LoginForm/>
             </div>
         );
+    }
+
+    if (!store.user.roles.includes("admin")) {
+        return (
+            <div>
+                <h1>У вас нет прав на просмотр этой страницы</h1>
+                <Link to="/profile">Вернуться к профилю</Link>
+            </div>
+        )
     }
 
     return (
@@ -46,34 +52,16 @@ const EditProfile = () => {
                     </Link>
                 </div>
             </div>
-            <div className="edit">
-                <input className="edit__input"
-                       onChange={e => setFirstName(e.target.value)}
-                       value={firstName}
-                       type="text"
-                       placeholder="Имя"
-                />
-                <input className="edit__input"
-                       onChange={e => setSecondName(e.target.value)}
-                       value={secondName}
-                       type="text"
-                       placeholder="Фамилия"
-                />
-                <input className="edit__input"
-                       onChange={e => setEmail(e.target.value)}
-                       value={email}
-                       type="text"
-                       placeholder="Почта"
-                />
-                <Link to="/app" className="edit__button-link">
-                    <button className="edit__button"
-                            onClick={() => store.edit(firstName, secondName, email)}>
-                        Изменить данные
-                    </button>
-                </Link>
+            <div className="admin">
+                <button onClick={() => store.getAllTests()}>
+                    <Link to="/admin/tests">Тесты</Link>
+                </button>
+                <button onClick={() => store.getAllQuestions()}>
+                    <Link to="/admin/questions">Вопросы</Link>
+                </button>
             </div>
         </div>
     );
 };
 
-export default observer(EditProfile);
+export default observer(Admin);

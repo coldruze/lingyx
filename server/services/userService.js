@@ -14,7 +14,7 @@ class UserService {
 
         const salt = await bcrypt.genSalt(5);
         const hashPassword = await bcrypt.hash(password, salt);
-        const newUser = await UserModel.create({firstName, secondName, email, password: hashPassword});
+        const newUser = await UserModel.create({firstName, secondName, email, password: hashPassword, roles: ["user"]});
         const userData = new UserDto(newUser);
         const tokens = TokenService.generateTokens({...userData});
         await TokenService.saveToken(userData.id, tokens.refreshToken);
@@ -83,9 +83,7 @@ class UserService {
             throw ApiError.BadRequest("Пользователь не найден");
         }
 
-        const userData = await UserModel.findOneAndUpdate({email: oldEmail}, {firstName, secondName, email});
-
-        return userData;
+        return UserModel.findOneAndUpdate({_id: user._id}, {firstName, secondName, email});
     }
 }
 

@@ -10,5 +10,5 @@ export function useAuth() {
         }
     }, [store]);
 
-    return {store, isLoading: store.isLoading, isAuth: store.isAuth};
+    return {store, isAuth: store.isAuth};
 }

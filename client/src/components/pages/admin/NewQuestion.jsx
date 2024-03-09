@@ -1,17 +1,17 @@
+import {observer} from "mobx-react-lite";
 import {useAuth} from "../../../utils/authUtils";
-import LoginForm from "../auth/LoginForm";
 import React, {useState} from "react";
+import LoginForm from "../auth/LoginForm";
 import {Link} from "react-router-dom";
 import TestIcon from "../../../assets/app/test-icon.png";
 import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
-import {observer} from "mobx-react-lite";
 
-const EditProfile = () => {
+const NewQuestion = () => {
     const {store, isAuth} = useAuth();
-    const [firstName, setFirstName] = useState(store.user.firstName);
-    const [secondName, setSecondName] = useState(store.user.secondName);
-    const [email, setEmail] = useState(store.user.email);
+    const [text, setText] = useState("");
+    const [options, setOptions] = useState([]);
+    const [correctOption, setCorrectOption] = useState(0);
 
     if (!isAuth) {
         return (
@@ -20,6 +20,21 @@ const EditProfile = () => {
             </div>
         );
     }
+
+    if (!store.user.roles.includes("admin")) {
+        return (
+            <div>
+                <h1>У вас нет прав на просмотр этой страницы</h1>
+                <Link to="/profile">Вернуться к профилю</Link>
+            </div>
+        )
+    }
+
+    const handleOptionsChange = (e) => {
+        const value = e.target.value;
+        const optionsArray = value.split(',');
+        setOptions(optionsArray);
+    };
 
     return (
         <div className="application">
@@ -46,34 +61,26 @@ const EditProfile = () => {
                     </Link>
                 </div>
             </div>
-            <div className="edit">
-                <input className="edit__input"
-                       onChange={e => setFirstName(e.target.value)}
-                       value={firstName}
+            <div className="admin">
+                <input onChange={e => setText(e.target.value)}
+                       value={text}
                        type="text"
-                       placeholder="Имя"
+                       placeholder="Вопрос"
                 />
-                <input className="edit__input"
-                       onChange={e => setSecondName(e.target.value)}
-                       value={secondName}
+                <input onChange={handleOptionsChange}
+                       value={options}
                        type="text"
-                       placeholder="Фамилия"
+                       placeholder="Варианты ответа"
                 />
-                <input className="edit__input"
-                       onChange={e => setEmail(e.target.value)}
-                       value={email}
-                       type="text"
-                       placeholder="Почта"
+                <input onChange={e => setCorrectOption(parseInt(e.target.value, 10))}
+                       value={correctOption}
+                       type="number"
+                       placeholder="Индекс ответа"
                 />
-                <Link to="/app" className="edit__button-link">
-                    <button className="edit__button"
-                            onClick={() => store.edit(firstName, secondName, email)}>
-                        Изменить данные
-                    </button>
-                </Link>
+                <button onClick={() => store.createNewQuestion(text, options, correctOption)}>Создать</button>
             </div>
         </div>
     );
 };
 
-export default observer(EditProfile);
+export default observer(NewQuestion);

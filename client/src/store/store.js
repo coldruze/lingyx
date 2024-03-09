@@ -14,6 +14,7 @@ export default class Store {
     tests = {};
     questions = [];
     results = [];
+    allQuestions = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -46,8 +47,13 @@ export default class Store {
     setQuestions(questions) {
         this.questions = questions;
     }
+
     setResults(results) {
         this.results = results;
+    }
+
+    setAllQuestions(allQuestions) {
+        this.allQuestions = allQuestions;
     }
 
     async registration(firstName, secondName, email, password) {
@@ -137,6 +143,7 @@ export default class Store {
             const questionsIds = this.tests[title];
             const response = await TestService.getQuestions(questionsIds);
             const questions = response.data;
+
             this.setQuestions(questions);
             this.setCurrentTestTitle(title);
         } catch (e) {
@@ -156,7 +163,61 @@ export default class Store {
         try {
             const response = await TestService.getTestsResult(userId);
             const results = response.data;
+
             this.setResults(results);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async getAllQuestions() {
+        try {
+            const response = await TestService.getAllQuestions();
+            const allQuestions = response.data;
+
+            this.setAllQuestions(allQuestions);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async createNewTest(testTitle, questionsId) {
+        try {
+            const response = await TestService.createNewTest(testTitle, questionsId);
+
+            console.log(response.data);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async deleteTest(testTitle) {
+        try {
+            const response = await TestService.deleteTest(testTitle);
+            await this.getAllTests();
+
+            console.log(response.data);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async createNewQuestion(text, options, correctOption) {
+        try {
+            const response = await TestService.createNewQuestion(text, options, correctOption);
+
+            console.log(response.data);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async deleteQuestion(questionId) {
+        try {
+            const response = await TestService.deleteQuestion(questionId);
+            await this.getAllQuestions();
+
+            console.log(response.data);
         } catch (e) {
             console.log(e.response?.data?.message);
         }

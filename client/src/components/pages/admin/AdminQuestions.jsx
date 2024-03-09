@@ -1,13 +1,13 @@
-import TestIcon from "../../../assets/app/test-icon.png";
+import {observer} from "mobx-react-lite";
 import {Link} from "react-router-dom";
+import TestIcon from "../../../assets/app/test-icon.png";
 import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
 import React from "react";
 import {useAuth} from "../../../utils/authUtils";
 import LoginForm from "../auth/LoginForm";
-import {observer} from "mobx-react-lite";
 
-const Profile = () => {
+const AdminQuestions = () => {
     const {store, isAuth} = useAuth();
 
     if (!isAuth) {
@@ -18,11 +18,20 @@ const Profile = () => {
         );
     }
 
+    if (!store.user.roles.includes("admin")) {
+        return (
+            <div>
+                <h1>У вас нет прав на просмотр этой страницы</h1>
+                <Link to="/profile">Вернуться к профилю</Link>
+            </div>
+        )
+    }
+
     return (
         <div className="application">
             <div className="sidebar">
                 <div className="sidebar__title">
-                        LingyX
+                    LingyX
                 </div>
                 <div>
                     <Link to="/tests" className="sidebar__link">
@@ -43,18 +52,19 @@ const Profile = () => {
                     </Link>
                 </div>
             </div>
-            <div className="profile">
-                <h1>{`Имя: ${store.user.firstName}`}</h1>
-                <h1>{`Фамилия: ${store.user.secondName}`}</h1>
-                <h1>{`Почта: ${store.user.email}`}</h1>
-
-                <button onClick={() => store.logout()}><Link to="/">Выйти</Link></button>
-                <Link to="/profile/edit">Редактировать</Link>
-                {store.user.roles.includes("admin") ? <Link to="/admin">Админ панель</Link> : null}
-                <Link to="/">На главную</Link>
+            <div className="questions">
+                <Link to="/admin/questions/newquestion">Добавить новый вопрос</Link>
+                <div>
+                    {store.allQuestions.map((question) => (
+                        <div key={question._id} className="question">
+                            {question.text}
+                            <button onClick={() => store.deleteQuestion(question._id)}>Удалить</button>
+                        </div>
+                    ))}
+                </div>
             </div>
         </div>
     );
 };
 
-export default observer(Profile);
+export default observer(AdminQuestions);

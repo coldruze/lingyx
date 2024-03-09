@@ -25,11 +25,16 @@ router.get("/users", auth, UserController.getAllUsers);
 router.get("/logout", UserController.logout);
 router.post("/editprofile", UserController.editProfile);
 
-router.post("/addquestion", TestController.addQuestion);
 router.post("/addtest", TestController.addTest);
+router.post("/deletetest", TestController.deleteTest);
 router.get("/tests", TestController.getAllTests);
+
+router.post("/addquestion", TestController.addQuestion);
 router.post("/getquestion", TestController.getQuestionById);
-router.post("/getallquestions", TestController.getAllQuestionsById);
+router.post("/getquestions", TestController.getAllQuestionsById);
+router.get("/getallquestions", TestController.getAllQuestions);
+router.post("/deletequestion", TestController.deleteQuestion);
+
 router.post("/sendtestresult", TestController.sendTestResult);
 router.post("/gettestsresult", TestController.getTestsResult);
 

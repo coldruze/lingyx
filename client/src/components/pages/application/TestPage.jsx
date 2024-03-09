@@ -1,4 +1,4 @@
-import {Observer} from "mobx-react-lite";
+import {observer, Observer} from "mobx-react-lite";
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
 import TestIcon from "../../../assets/app/test-icon.png";
@@ -104,4 +104,4 @@ const TestPage = () => {
     );
 };
 
-export default TestPage;
+export default observer(TestPage);
