@@ -8,7 +8,13 @@ import ProfileIcon from "../../../assets/app/profile-icon.png";
 import {observer} from "mobx-react-lite";
 
 const Admin = () => {
-    const {store, isAuth} = useAuth();
+    const {store, isAuth, isLoading} = useAuth();
+
+    if (isLoading) {
+        return (
+            <h1>Загрузка...</h1>
+        );
+    }
 
     if (!isAuth) {
         return (
@@ -36,7 +42,7 @@ const Admin = () => {
                 <div>
                     <Link to="/tests" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
-                        <span onClick={() => store.getAllTests()}>Тесты</span>
+                        <span>Тесты</span>
                     </Link>
                 </div>
                 <div>

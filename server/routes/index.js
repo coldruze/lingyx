@@ -28,12 +28,14 @@ router.post("/editprofile", UserController.editProfile);
 router.post("/addtest", TestController.addTest);
 router.post("/deletetest", TestController.deleteTest);
 router.get("/tests", TestController.getAllTests);
+router.post("/edittest", TestController.editTest);
 
 router.post("/addquestion", TestController.addQuestion);
 router.post("/getquestion", TestController.getQuestionById);
 router.post("/getquestions", TestController.getAllQuestionsById);
 router.get("/getallquestions", TestController.getAllQuestions);
 router.post("/deletequestion", TestController.deleteQuestion);
+router.post("/editquestion", TestController.editQuestion);
 
 router.post("/sendtestresult", TestController.sendTestResult);
 router.post("/gettestsresult", TestController.getTestsResult);

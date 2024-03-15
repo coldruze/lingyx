@@ -2,16 +2,23 @@ import {observer} from "mobx-react-lite";
 import {useAuth} from "../../../utils/authUtils";
 import React, {useState} from "react";
 import LoginForm from "../auth/LoginForm";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import TestIcon from "../../../assets/app/test-icon.png";
 import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
 
 const NewQuestion = () => {
-    const {store, isAuth} = useAuth();
+    const navigate = useNavigate();
+    const {store, isAuth, isLoading} = useAuth();
     const [text, setText] = useState("");
     const [options, setOptions] = useState([]);
     const [correctOption, setCorrectOption] = useState(0);
+
+    if (isLoading) {
+        return (
+            <h1>Загрузка...</h1>
+        );
+    }
 
     if (!isAuth) {
         return (
@@ -36,6 +43,10 @@ const NewQuestion = () => {
         setOptions(optionsArray);
     };
 
+    const handleFunc = (text, options, correctOption) => {
+        store.createNewQuestion(text, options, correctOption).then(() => navigate(-1));
+    };
+
     return (
         <div className="application">
             <div className="sidebar">
@@ -45,7 +56,7 @@ const NewQuestion = () => {
                 <div>
                     <Link to="/tests" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
-                        <span onClick={() => store.getAllTests()}>Тесты</span>
+                        <span>Тесты</span>
                     </Link>
                 </div>
                 <div>
@@ -77,7 +88,7 @@ const NewQuestion = () => {
                        type="number"
                        placeholder="Индекс ответа"
                 />
-                <button onClick={() => store.createNewQuestion(text, options, correctOption)}>Создать</button>
+                <button onClick={() => handleFunc(text, options, correctOption)}>Создать</button>
             </div>
         </div>
     );

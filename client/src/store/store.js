@@ -15,6 +15,8 @@ export default class Store {
     questions = [];
     results = [];
     allQuestions = [];
+    editedQuestion = {};
+    editedTest = {};
 
     constructor() {
         makeAutoObservable(this);
@@ -56,6 +58,14 @@ export default class Store {
         this.allQuestions = allQuestions;
     }
 
+    setEditedQuestion(editedQuestion) {
+        this.editedQuestion = editedQuestion;
+    }
+
+    setEditedTest(editedTest) {
+        this.editedTest = editedTest;
+    }
+
     async registration(firstName, secondName, email, password) {
         try {
             const response = await AuthService.registration(firstName, secondName, email, password);
@@ -92,7 +102,7 @@ export default class Store {
         }
     }
 
-    async edit(firstName, secondName, email) {
+    async editProfile(firstName, secondName, email) {
         try {
             const response = await UserService.edit(firstName, secondName, email, this.user.email);
             console.log(response);
@@ -218,6 +228,35 @@ export default class Store {
             await this.getAllQuestions();
 
             console.log(response.data);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async editQuestion(questionId, text, options, correctOption) {
+        try {
+            const response = await TestService.editQuestion(questionId, text, options, correctOption);
+            await this.getAllQuestions();
+
+            console.log(response.data);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async editTest(oldTitle, title, questions) {
+        try {
+            const response = await TestService.editTest(oldTitle, title, questions);
+
+            console.log(response.data);
+        } catch (e) {
+            console.log(e.response?.data?.message);
+        }
+    }
+
+    async getResults() {
+        try {
+
         } catch (e) {
             console.log(e.response?.data?.message);
         }

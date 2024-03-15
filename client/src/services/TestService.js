@@ -36,4 +36,12 @@ export default class TestService {
     static async deleteQuestion(questionId) {
         return $api.post("/deletequestion", {questionId});
     }
+
+    static async editQuestion(questionId, text, options, correctOption) {
+        return $api.post("/editquestion", {questionId, text, options, correctOption});
+    }
+
+    static async editTest(oldTitle, title, questions) {
+        return $api.post("/edittest", {oldTitle, title, questions});
+    }
 }

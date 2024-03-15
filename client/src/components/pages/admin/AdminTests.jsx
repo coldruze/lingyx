@@ -1,5 +1,5 @@
 import {observer} from "mobx-react-lite";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import TestIcon from "../../../assets/app/test-icon.png";
 import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
@@ -8,6 +8,7 @@ import {useAuth} from "../../../utils/authUtils";
 import LoginForm from "../auth/LoginForm";
 
 const AdminTests = () => {
+    const navigate = useNavigate();
     const {store, isAuth} = useAuth();
 
     if (!isAuth) {
@@ -27,6 +28,22 @@ const AdminTests = () => {
         )
     }
 
+    const editedTestSetting = async (testTitle) => {
+        await store.getQuestionsByTestTitle(testTitle);
+
+        let questionsIds = [];
+        store.questions.map((question) => {
+            questionsIds.push(question._id);
+            return null;
+        });
+
+        const test = {title: testTitle, questions: questionsIds};
+
+        store.setEditedTest(test);
+        await store.getAllQuestions();
+        navigate(`/admin/tests/edit/${test.title}`);
+    };
+
     return (
         <div className="application">
             <div className="sidebar">
@@ -36,7 +53,7 @@ const AdminTests = () => {
                 <div>
                     <Link to="/tests" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
-                        <span onClick={() => store.getAllTests()}>Тесты</span>
+                        <span>Тесты</span>
                     </Link>
                 </div>
                 <div>
@@ -53,7 +70,7 @@ const AdminTests = () => {
                 </div>
             </div>
             <div className="tests">
-                <Link to="/admin/tests/newtest">
+                <Link to="/admin/tests/new">
                     <button onClick={() => store.getAllQuestions()}>
                         Создать новый тест
                     </button>
@@ -63,6 +80,7 @@ const AdminTests = () => {
                         <div key={index}>
                             <p>{testTitle}</p>
                             <button onClick={() => store.deleteTest(testTitle)}>Удалить</button>
+                            <button onClick={() => editedTestSetting(testTitle)}>Редактировать</button>
                         </div>
                     ))}
                 </div>

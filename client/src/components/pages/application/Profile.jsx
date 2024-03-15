@@ -8,7 +8,13 @@ import LoginForm from "../auth/LoginForm";
 import {observer} from "mobx-react-lite";
 
 const Profile = () => {
-    const {store, isAuth} = useAuth();
+    const {store, isAuth, isLoading} = useAuth();
+
+    if (isLoading) {
+        return (
+            <h1>Загрузка...</h1>
+        );
+    }
 
     if (!isAuth) {
         return (
@@ -22,12 +28,12 @@ const Profile = () => {
         <div className="application">
             <div className="sidebar">
                 <div className="sidebar__title">
-                        LingyX
+                    LingyX
                 </div>
                 <div>
                     <Link to="/tests" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
-                        <span onClick={() => store.getAllTests()}>Тесты</span>
+                        <span>Тесты</span>
                     </Link>
                 </div>
                 <div>
@@ -51,7 +57,6 @@ const Profile = () => {
                 <button onClick={() => store.logout()}><Link to="/">Выйти</Link></button>
                 <Link to="/profile/edit">Редактировать</Link>
                 {store.user.roles.includes("admin") ? <Link to="/admin">Админ панель</Link> : null}
-                <Link to="/">На главную</Link>
             </div>
         </div>
     );

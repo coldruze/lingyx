@@ -1,15 +1,18 @@
 import {observer} from "mobx-react-lite";
+import {useAuth} from "../../../utils/authUtils";
 import {Link, useNavigate} from "react-router-dom";
 import TestIcon from "../../../assets/app/test-icon.png";
 import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
-import React from "react";
-import {useAuth} from "../../../utils/authUtils";
+import React, {useState} from "react";
 import LoginForm from "../auth/LoginForm";
 
-const AdminQuestions = () => {
+const EditQuestion = () => {
     const navigate = useNavigate();
     const {store, isAuth, isLoading} = useAuth();
+    const [text, setText] = useState(store.editedQuestion.text);
+    const [options, setOptions] = useState(store.editedQuestion.options);
+    const [correctOption, setCorrectOption] = useState(store.editedQuestion.correctOption);
 
     if (isLoading) {
         return (
@@ -34,9 +37,14 @@ const AdminQuestions = () => {
         )
     }
 
-    const editedQuestionSetting = (question) => {
-        store.setEditedQuestion(question);
-        navigate(`/admin/questions/edit/${question._id}`);
+    const handleOptionsChange = (e) => {
+        const value = e.target.value;
+        const optionsArray = value.split(',');
+        setOptions(optionsArray);
+    };
+
+    const handleFunc = (text, options, correctOption) => {
+        store.editQuestion(store.editedQuestion._id, text, options, correctOption).then(() => navigate(-1));
     };
 
     return (
@@ -64,20 +72,26 @@ const AdminQuestions = () => {
                     </Link>
                 </div>
             </div>
-            <div className="questions">
-                <Link to="/admin/questions/new">Добавить новый вопрос</Link>
-                <div>
-                    {store.allQuestions.map((question) => (
-                        <div key={question._id} className="question">
-                            {question.text}
-                            <button onClick={() => store.deleteQuestion(question._id)}>Удалить</button>
-                            <button onClick={() => editedQuestionSetting(question)}>Редактировать</button>
-                        </div>
-                    ))}
-                </div>
+            <div className="admin">
+                <input onChange={e => setText(e.target.value)}
+                       value={text}
+                       type="text"
+                       placeholder="Вопрос"
+                />
+                <input onChange={handleOptionsChange}
+                       value={options}
+                       type="text"
+                       placeholder="Варианты ответа"
+                />
+                <input onChange={e => setCorrectOption(parseInt(e.target.value, 10))}
+                       value={correctOption}
+                       type="number"
+                       placeholder="Индекс ответа"
+                />
+                <button onClick={() => handleFunc(text, options, correctOption)}>Редактировать</button>
             </div>
         </div>
     );
 };
 
-export default observer(AdminQuestions);
+export default observer(EditQuestion);

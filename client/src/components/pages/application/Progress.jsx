@@ -8,7 +8,14 @@ import {useAuth} from "../../../utils/authUtils";
 import LoginForm from "../auth/LoginForm";
 
 const Progress = () => {
-    const {store, isAuth} = useAuth();
+    const {store, isAuth, isLoading} = useAuth();
+
+
+    if (isLoading) {
+        return (
+            <h1>Загрузка...</h1>
+        );
+    }
 
     if (!isAuth) {
         return (
@@ -25,13 +32,13 @@ const Progress = () => {
                     LingyX
                 </div>
                 <div>
-                    <Link to="/tests" className="sidebar__link" onClick={() => store.getAllTests()}>
+                    <Link to="/tests" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
                         <span>Тесты</span>
                     </Link>
                 </div>
                 <div>
-                    <Link to="/progress" className="sidebar__link" onClick={() => store.getTestsResult(store.user.id)}>
+                    <Link to="/progress" className="sidebar__link">
                         <img src={ProgressIcon} alt=""/>
                         <span>Прогресс</span>
                     </Link>

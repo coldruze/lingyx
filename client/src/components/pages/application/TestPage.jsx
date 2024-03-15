@@ -8,10 +8,24 @@ import {useAuth} from "../../../utils/authUtils";
 import LoginForm from "../auth/LoginForm";
 
 const TestPage = () => {
-    const { store, isAuth } = useAuth();
+    const { store, isAuth, isLoading } = useAuth();
     const [selectedOptions, setSelectedOptions] = useState(Array(store.questions.length).fill(null));
     const [testCompleted, setTestCompleted] = useState(false);
     const [score, setScore] = useState(0);
+
+    if (isLoading) {
+        return (
+            <h1>Загрузка...</h1>
+        );
+    }
+
+    if (!isAuth) {
+        return (
+            <div>
+                <LoginForm/>
+            </div>
+        );
+    }
 
     const handleOptionSelect = (questionIndex, optionIndex) => {
         const updatedOptions = [...selectedOptions];
@@ -36,14 +50,6 @@ const TestPage = () => {
         console.log(testScore.toString() + "/" + store.questions.length.toString())
         await store.sendTestResult(store.user.id, store.currentTestTitle, testScore.toString() + "/" + store.questions.length.toString());
     };
-
-    if (!isAuth) {
-        return (
-            <div>
-                <LoginForm/>
-            </div>
-        );
-    }
 
     return (
         <Observer>

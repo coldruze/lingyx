@@ -107,6 +107,28 @@ class TestController {
             next(e);
         }
     }
+
+    async editQuestion(req, res, next) {
+        try {
+            const {questionId, text, options, correctOption} = req.body;
+            const data = await TestService.editQuestion(questionId, text, options, correctOption);
+
+            return res.send(data);
+        } catch (e) {
+            next(e);
+        }
+    }
+
+    async editTest(req, res, next) {
+        try {
+            const {oldTitle, title, questions} = req.body;
+            const data = await TestService.editTest(oldTitle, title, questions);
+
+            return res.send(data);
+        } catch (e) {
+            next(e);
+        }
+    }
 }
 
 module.exports = new TestController();

@@ -1,15 +1,17 @@
 import {observer} from "mobx-react-lite";
+import {useAuth} from "../../../utils/authUtils";
+import React, {useState} from "react";
+import LoginForm from "../auth/LoginForm";
 import {Link, useNavigate} from "react-router-dom";
 import TestIcon from "../../../assets/app/test-icon.png";
 import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
-import React from "react";
-import {useAuth} from "../../../utils/authUtils";
-import LoginForm from "../auth/LoginForm";
 
-const AdminQuestions = () => {
+const EditTest = () => {
     const navigate = useNavigate();
     const {store, isAuth, isLoading} = useAuth();
+    const [testTitle, setTestTitle] = useState(store.editedTest.title);
+    const [questionsIds, setQuestionsIds] = useState(store.editedTest.questions);
 
     if (isLoading) {
         return (
@@ -34,9 +36,16 @@ const AdminQuestions = () => {
         )
     }
 
-    const editedQuestionSetting = (question) => {
-        store.setEditedQuestion(question);
-        navigate(`/admin/questions/edit/${question._id}`);
+    const addQuestion = (questionId) => {
+        setQuestionsIds([...questionsIds, questionId]);
+    };
+
+    const removeQuestion = (questionId) => {
+        setQuestionsIds(questionsIds.filter(id => id !== questionId));
+    };
+
+    const handleFunc = (testTitle, questionsIds) => {
+        store.editTest(store.editedTest.title, testTitle, questionsIds).then(() => navigate(-1));
     };
 
     return (
@@ -64,20 +73,30 @@ const AdminQuestions = () => {
                     </Link>
                 </div>
             </div>
-            <div className="questions">
-                <Link to="/admin/questions/new">Добавить новый вопрос</Link>
+            <div className="admin">
+                <input
+                    onChange={e => setTestTitle(e.target.value)}
+                    value={testTitle}
+                    type="text"
+                    placeholder="Название теста"
+                />
+                <button onClick={() => store.getAllQuestions()}>Список вопросов</button>
                 <div>
                     {store.allQuestions.map((question) => (
                         <div key={question._id} className="question">
                             {question.text}
-                            <button onClick={() => store.deleteQuestion(question._id)}>Удалить</button>
-                            <button onClick={() => editedQuestionSetting(question)}>Редактировать</button>
+                            {questionsIds.includes(question._id) ? (
+                                <button onClick={() => removeQuestion(question._id)}>-</button>
+                            ) : (
+                                <button onClick={() => addQuestion(question._id)}>+</button>
+                            )}
                         </div>
                     ))}
                 </div>
+                <button onClick={() => handleFunc(testTitle, questionsIds)}>Редактировать</button>
             </div>
         </div>
     );
 };
 
-export default observer(AdminQuestions);
+export default observer(EditTest);

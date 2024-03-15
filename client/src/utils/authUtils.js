@@ -7,8 +7,11 @@ export function useAuth() {
     useEffect(() => {
         if (localStorage.getItem("token")) {
             store.checkAuth();
+            store.getAllQuestions();
+            store.getAllTests();
+            store.getTestsResult(store.user.id)
         }
     }, [store]);
 
-    return {store, isAuth: store.isAuth};
+    return {store, isAuth: store.isAuth, isLoading: store.isLoading};
 }

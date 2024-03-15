@@ -8,7 +8,13 @@ import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
 
 const Application = () => {
-    const {store, isAuth} = useAuth();
+    const {isAuth, isLoading} = useAuth();
+
+    if (isLoading) {
+        return (
+            <h1>Загрузка...</h1>
+        );
+    }
 
     if (!isAuth) {
         return (
@@ -27,7 +33,7 @@ const Application = () => {
                 <div>
                     <Link to="/tests" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
-                        <span onClick={() => store.getAllTests()}>Тесты</span>
+                        <span>Тесты</span>
                     </Link>
                 </div>
                 <div>

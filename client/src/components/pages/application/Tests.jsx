@@ -9,7 +9,13 @@ import LoginForm from "../auth/LoginForm";
 
 const Tests = () => {
     const navigate = useNavigate();
-    const {store, isAuth} = useAuth();
+    const {store, isAuth, isLoading} = useAuth();
+
+    if (isLoading) {
+        return (
+            <h1>Загрузка...</h1>
+        );
+    }
 
     if (!isAuth) {
         return (
@@ -33,7 +39,7 @@ const Tests = () => {
                 <div>
                     <Link to="/tests" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
-                        <span onClick={() => store.getAllTests()}>Тесты</span>
+                        <span>Тесты</span>
                     </Link>
                 </div>
                 <div>
@@ -53,11 +59,9 @@ const Tests = () => {
                 <h1>Список тестов</h1>
                 <div>
                     {store.testsTitles.map(title => (
-                        <Link to={`/tests/${title}`}>
-                            <button key={title} onClick={() => handleTestClick(title)}>
-                                {title}
-                            </button>
-                        </Link>
+                        <button key={title} onClick={() => handleTestClick(title)}>
+                            {title}
+                        </button>
                     ))}
                 </div>
             </div>

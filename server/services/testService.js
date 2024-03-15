@@ -79,6 +79,14 @@ class TestService {
     async deleteQuestion(questionId) {
         return QuestionModel.deleteOne({_id: questionId});
     }
+
+    async editQuestion(questionId, text, options, correctOption) {
+        return QuestionModel.findOneAndUpdate({_id: questionId}, {text, options, correctOption}, {upsert: true});
+    }
+
+    async editTest(oldTitle, title, questions) {
+        return TestModel.findOneAndUpdate({title: oldTitle}, {title, questions});
+    }
 }
 
 module.exports = new TestService();
