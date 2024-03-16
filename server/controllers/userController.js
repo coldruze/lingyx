@@ -39,16 +39,6 @@ class UserController {
         }
     }
 
-    async getAllUsers(req, res, next) {
-        try {
-            const users = await UserService.getAllUsers();
-
-            return res.send(users);
-        } catch (e) {
-            next(e);
-        }
-    }
-
     async logout(req, res, next) {
         try {
             const {refreshToken} = req.cookies;

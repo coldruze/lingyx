@@ -1,11 +1,11 @@
 import {observer} from "mobx-react-lite";
 import {Link, useNavigate} from "react-router-dom";
 import TestIcon from "../../../assets/app/test-icon.png";
-import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
 import React, {useState} from "react";
 import {useAuth} from "../../../utils/authUtils";
 import LoginForm from "../auth/LoginForm";
+import SettingsIcon from "../../../assets/app/settings-icon.png";
 
 const NewTest = () => {
     const navigate = useNavigate();
@@ -55,45 +55,45 @@ const NewTest = () => {
                     LingyX
                 </div>
                 <div>
-                    <Link to="/tests" className="sidebar__link">
+                    <Link to="/app" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
-                        <span>Тесты</span>
+                        <span>Главная</span>
                     </Link>
                 </div>
                 <div>
-                    <Link to="/progress" className="sidebar__link">
-                        <img src={ProgressIcon} alt=""/>
-                        <span>Прогресс</span>
+                    <Link to="/settings" className="sidebar__link">
+                        <img src={SettingsIcon} alt=""/>
+                        <span>Настройки</span>
                     </Link>
                 </div>
-                <div>
-                    <Link to="/profile" className="sidebar__link">
+                {store.user.roles.includes("admin") ?
+                    <div className="sidebar__link" onClick={() => navigate("/admin")}>
                         <img src={ProfileIcon} alt=""/>
-                        <span>Профиль</span>
-                    </Link>
-                </div>
+                        <span>Админ панель</span>
+                    </div>
+                    : null}
             </div>
             <div className="admin">
                 <input
+                    className="admin__input"
                     onChange={e => setTestTitle(e.target.value)}
                     value={testTitle}
                     type="text"
                     placeholder="Название теста"
                 />
-                <button onClick={() => store.getAllQuestions()}>Список вопросов</button>
                 <div>
                     {store.allQuestions.map((question) => (
-                        <div key={question._id} className="question">
-                            {question.text}
+                        <div className="admin-item" key={question._id}>
+                            <p>{question.text}</p>
                             {questionsIds.includes(question._id) ? (
-                                <button onClick={() => removeQuestion(question._id)}>-</button>
+                                <button className="admin-item__button" onClick={() => removeQuestion(question._id)}>-</button>
                             ) : (
-                                <button onClick={() => addQuestion(question._id)}>+</button>
+                                <button className="admin-item__button" onClick={() => addQuestion(question._id)}>+</button>
                             )}
                         </div>
                     ))}
                 </div>
-                <button onClick={() => handleFunc(testTitle, questionsIds)}>Создать</button>
+                <button className="admin__button" onClick={() => handleFunc(testTitle, questionsIds)}>Создать</button>
             </div>
         </div>
     );

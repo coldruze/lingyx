@@ -1,0 +1,14 @@
+.application{
+
+
+  &-content {
+    margin-left: 250px;
+    padding: 30px 50px;
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.content {
+  width: 60%;
+}

@@ -1,13 +1,14 @@
 import {observer, Observer} from "mobx-react-lite";
 import React, {useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import TestIcon from "../../../assets/app/test-icon.png";
-import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
 import {useAuth} from "../../../utils/authUtils";
 import LoginForm from "../auth/LoginForm";
+import SettingsIcon from "../../../assets/app/settings-icon.png";
 
 const TestPage = () => {
+    const navigate = useNavigate();
     const { store, isAuth, isLoading } = useAuth();
     const [selectedOptions, setSelectedOptions] = useState(Array(store.questions.length).fill(null));
     const [testCompleted, setTestCompleted] = useState(false);
@@ -60,34 +61,34 @@ const TestPage = () => {
                             LingyX
                         </div>
                         <div>
-                            <Link to="/tests" className="sidebar__link">
+                            <Link to="/app" className="sidebar__link">
                                 <img src={TestIcon} alt=""/>
-                                <span>Тесты</span>
+                                <span>Главная</span>
                             </Link>
                         </div>
                         <div>
-                            <Link to="/progress" className="sidebar__link">
-                                <img src={ProgressIcon} alt=""/>
-                                <span>Прогресс</span>
+                            <Link to="/settings" className="sidebar__link">
+                                <img src={SettingsIcon} alt=""/>
+                                <span>Настройки</span>
                             </Link>
                         </div>
-                        <div>
-                            <Link to="/profile" className="sidebar__link">
+                        {store.user.roles.includes("admin") ?
+                            <div className="sidebar__link" onClick={() => navigate("/admin")}>
                                 <img src={ProfileIcon} alt=""/>
-                                <span>Профиль</span>
-                            </Link>
-                        </div>
+                                <span>Админ панель</span>
+                            </div>
+                            : null}
                     </div>
                     <div className="test">
-                        <div>
+                        <div className="test-content">
                             {store.questions.map((item, index) => (
-                                <div key={index}>
-                                    <div>
-                                        {item.text}
-                                    </div>
+                                <div className="test-block" key={index}>
+                                    <span>
+                                        {index+1}) {item.text}
+                                    </span>
                                     <div>
                                         {item.options.map((option, optionIndex) => (
-                                            <div key={optionIndex}>
+                                            <div className="test-item" key={optionIndex}>
                                                 <input
                                                     type="radio"
                                                     name={`question${index}`}
@@ -101,8 +102,9 @@ const TestPage = () => {
                                 </div>
                             ))}
                         </div>
-                        {!testCompleted && <button onClick={handleTestCompletion}>Завершить тест</button>}
+                        {!testCompleted && <button className="test-finish__button" onClick={handleTestCompletion}>Завершить тест</button>}
                         {testCompleted && <div>Результат: {score}/{store.questions.length}</div>}
+                        {testCompleted && <button className="test-finish__button" onClick={() => navigate("/app")}>Вернуться к тестам</button>}
                     </div>
                 </div>
             )}

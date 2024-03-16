@@ -34,17 +34,6 @@ class TestController {
         }
     }
 
-    async getQuestionById(req, res, next) {
-        try {
-            const {id} = req.body;
-            const question = await TestService.getQuestionById(id);
-
-            return res.send(question);
-        } catch (e) {
-            next(e);
-        }
-    }
-
     async getAllQuestionsById(req, res, next) {
         try {
             const {ids} = req.body;

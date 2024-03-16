@@ -1,15 +1,14 @@
-.edit {
+.settings {
   margin-left: 250px;
   padding: 30px 50px;
-  display: flex;
-  flex-direction: column;
 
-  &__input {
-    width: 300px;
+  h1 {
     margin-bottom: 15px;
-    padding: 3px 5px;
-    font-size: 16px;
-    border: 1px solid black;
+  }
+
+  p {
+    font-size: 24px;
+    font-weight: 600;
 
     &:last-of-type {
       margin-bottom: 30px;
@@ -17,6 +16,9 @@
   }
 
   &__button {
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 45px;
     font-size: 12px;
     text-transform: uppercase;
     text-align: center;
@@ -26,16 +28,16 @@
     box-shadow: 0 8px 15px rgba(0, 0, 0, .1);
     transition: .3s;
     margin-right: 15px;
-    width: 300px;
-    padding: 10px 0;
-    border: 1px solid #000000;
-    border-radius: 45px;
 
     &:hover {
+      background: #000000;
+      color: white;
       transform: translateY(-7px);
       cursor: pointer;
-      background-color: black;
-      color: white;
+    }
+
+    &:last-of-type {
+      margin-right: 0;
     }
   }
 }

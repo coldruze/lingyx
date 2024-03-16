@@ -62,16 +62,6 @@ class UserService {
         return {user: userDto, ...tokens};
     }
 
-    async getAllUsers() {
-        let users = await UserModel.find();
-
-        for (let i = 0; i < users.length; i++) {
-            users[i] = new UserDto(users[i]);
-        }
-
-        return users;
-    }
-
     async logout(refreshToken) {
         return await TokenService.removeToken(refreshToken);
     }

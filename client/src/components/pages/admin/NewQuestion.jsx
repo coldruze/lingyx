@@ -4,8 +4,8 @@ import React, {useState} from "react";
 import LoginForm from "../auth/LoginForm";
 import {Link, useNavigate} from "react-router-dom";
 import TestIcon from "../../../assets/app/test-icon.png";
-import ProgressIcon from "../../../assets/app/progress-icon.png";
 import ProfileIcon from "../../../assets/app/profile-icon.png";
+import SettingsIcon from "../../../assets/app/settings-icon.png";
 
 const NewQuestion = () => {
     const navigate = useNavigate();
@@ -54,41 +54,49 @@ const NewQuestion = () => {
                     LingyX
                 </div>
                 <div>
-                    <Link to="/tests" className="sidebar__link">
+                    <Link to="/app" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
-                        <span>Тесты</span>
+                        <span>Главная</span>
                     </Link>
                 </div>
                 <div>
-                    <Link to="/progress" className="sidebar__link">
-                        <img src={ProgressIcon} alt=""/>
-                        <span>Прогресс</span>
+                    <Link to="/settings" className="sidebar__link">
+                        <img src={SettingsIcon} alt=""/>
+                        <span>Настройки</span>
                     </Link>
                 </div>
-                <div>
-                    <Link to="/profile" className="sidebar__link">
+                {store.user.roles.includes("admin") ?
+                    <div className="sidebar__link" onClick={() => navigate("/admin")}>
                         <img src={ProfileIcon} alt=""/>
-                        <span>Профиль</span>
-                    </Link>
-                </div>
+                        <span>Админ панель</span>
+                    </div>
+                    : null}
             </div>
             <div className="admin">
-                <input onChange={e => setText(e.target.value)}
-                       value={text}
-                       type="text"
-                       placeholder="Вопрос"
+                <input
+                    className="admin__input"
+                    onChange={e => setText(e.target.value)}
+                    value={text}
+                    type="text"
+                    placeholder="Вопрос"
                 />
-                <input onChange={handleOptionsChange}
-                       value={options}
-                       type="text"
-                       placeholder="Варианты ответа"
+                <input
+                    className="admin__input"
+                    onChange={handleOptionsChange}
+                    value={options}
+                    type="text"
+                    placeholder="Варианты ответа"
                 />
-                <input onChange={e => setCorrectOption(parseInt(e.target.value, 10))}
-                       value={correctOption}
-                       type="number"
-                       placeholder="Индекс ответа"
+                <input
+                    className="admin__input"
+                    onChange={e => setCorrectOption(parseInt(e.target.value, 10))}
+                    value={correctOption}
+                    type="number"
+                    placeholder="Индекс ответа"
                 />
-                <button onClick={() => handleFunc(text, options, correctOption)}>Создать</button>
+                <button className="admin__button" onClick={() => handleFunc(text, options, correctOption)}>
+                    Создать
+                </button>
             </div>
         </div>
     );

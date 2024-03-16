@@ -1,5 +1,4 @@
 const QuestionModel = require("../models/questionModel"),
-    QuestionDto = require("../dto/questionDto"),
     TestModel = require("../models/testModel"),
     TestDto = require("../dto/testDto"),
     ResultModel = require("../models/resultModel"),
@@ -34,13 +33,6 @@ class TestService {
         }
 
         return tests;
-    }
-
-    async getQuestionById(id) {
-        let question = await QuestionModel.findById(id);
-        question = new QuestionDto(question);
-
-        return question;
     }
 
     async getAllQuestionsById(ids) {

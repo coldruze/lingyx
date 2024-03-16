@@ -21,7 +21,6 @@ router.post("/register",
     UserController.registration);
 router.post("/login", UserController.login);
 router.get("/refresh", UserController.refresh)
-router.get("/users", auth, UserController.getAllUsers);
 router.get("/logout", UserController.logout);
 router.post("/editprofile", UserController.editProfile);
 
@@ -31,7 +30,6 @@ router.get("/tests", TestController.getAllTests);
 router.post("/edittest", TestController.editTest);
 
 router.post("/addquestion", TestController.addQuestion);
-router.post("/getquestion", TestController.getQuestionById);
 router.post("/getquestions", TestController.getAllQuestionsById);
 router.get("/getallquestions", TestController.getAllQuestions);
 router.post("/deletequestion", TestController.deleteQuestion);

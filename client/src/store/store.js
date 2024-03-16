@@ -253,12 +253,4 @@ export default class Store {
             console.log(e.response?.data?.message);
         }
     }
-
-    async getResults() {
-        try {
-
-        } catch (e) {
-            console.log(e.response?.data?.message);
-        }
-    }
 }

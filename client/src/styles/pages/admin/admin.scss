@@ -1,3 +1,69 @@
 .admin {
-  margin-left: 300px;
+  margin-left: 250px;
+  padding: 30px 50px;
+
+  &-block {
+
+
+    p {
+      font-size: 20px;
+      font-weight: 600;
+    }
+  }
+
+  &-item {
+    display: flex;
+    align-items: center;
+
+    &:last-of-type {
+      margin-bottom: 20px;
+    }
+
+    p {
+      font-size: 20px;
+      margin-bottom: 5px;
+    }
+
+    &__button {
+      width: 25px;
+      height: 25px;
+      margin-left: 5px;
+      background-color: white;
+      border: 1px solid black;
+
+      &:hover {
+        background-color: black;
+        color: white;
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__input {
+    width: 300px;
+    padding: 5px 10px;
+    font-size: 16px;
+    margin-bottom: 20px;
+  }
+
+  &__button {
+    margin-right: 20px;
+    margin-bottom: 30px;
+    padding: 5px 20px;
+    color: black;
+    background-color: white;
+    text-decoration: none;
+    font-size: 20px;
+    font-style: italic;
+
+    &:hover {
+      color: white;
+      background-color: black;
+      cursor: pointer;
+    }
+
+    &:last-of-type {
+      margin-right: 0;
+    }
+  }
 }
