@@ -1,18 +1,17 @@
 import {observer} from "mobx-react-lite";
-import {useAuth} from "../../../utils/authUtils";
+import {useAuth} from "../../utils/authUtils";
 import React, {useState} from "react";
 import LoginForm from "../auth/LoginForm";
 import {Link, useNavigate} from "react-router-dom";
-import TestIcon from "../../../assets/app/test-icon.png";
-import ProfileIcon from "../../../assets/app/profile-icon.png";
-import SettingsIcon from "../../../assets/app/settings-icon.png";
+import TestIcon from "../../assets/app/test-icon.png";
+import ProfileIcon from "../../assets/app/profile-icon.png";
+import SettingsIcon from "../../assets/app/settings-icon.png";
 
-const NewQuestion = () => {
+const EditTest = () => {
     const navigate = useNavigate();
     const {store, isAuth, isLoading} = useAuth();
-    const [text, setText] = useState("");
-    const [options, setOptions] = useState([]);
-    const [correctOption, setCorrectOption] = useState(0);
+    const [testTitle, setTestTitle] = useState(store.editedTest.title);
+    const [questionsIds, setQuestionsIds] = useState(store.editedTest.questions);
 
     if (isLoading) {
         return (
@@ -37,14 +36,16 @@ const NewQuestion = () => {
         )
     }
 
-    const handleOptionsChange = (e) => {
-        const value = e.target.value;
-        const optionsArray = value.split(',');
-        setOptions(optionsArray);
+    const addQuestion = (questionId) => {
+        setQuestionsIds([...questionsIds, questionId]);
     };
 
-    const handleFunc = (text, options, correctOption) => {
-        store.createNewQuestion(text, options, correctOption).then(() => navigate(-1));
+    const removeQuestion = (questionId) => {
+        setQuestionsIds(questionsIds.filter(id => id !== questionId));
+    };
+
+    const handleFunc = (testTitle, questionsIds) => {
+        store.editTest(store.editedTest.title, testTitle, questionsIds).then(() => navigate(-1));
     };
 
     return (
@@ -75,31 +76,29 @@ const NewQuestion = () => {
             <div className="admin">
                 <input
                     className="admin__input"
-                    onChange={e => setText(e.target.value)}
-                    value={text}
+                    onChange={e => setTestTitle(e.target.value)}
+                    value={testTitle}
                     type="text"
-                    placeholder="Вопрос"
+                    placeholder="Название теста"
                 />
-                <input
-                    className="admin__input"
-                    onChange={handleOptionsChange}
-                    value={options}
-                    type="text"
-                    placeholder="Варианты ответа"
-                />
-                <input
-                    className="admin__input"
-                    onChange={e => setCorrectOption(parseInt(e.target.value, 10))}
-                    value={correctOption}
-                    type="number"
-                    placeholder="Индекс ответа"
-                />
-                <button className="admin__button" onClick={() => handleFunc(text, options, correctOption)}>
-                    Создать
+                <div>
+                    {store.allQuestions.map((question) => (
+                        <div className="admin-item" key={question._id}>
+                            <p>{question.text}</p>
+                            {questionsIds.includes(question._id) ? (
+                                <button className="admin-item__button" onClick={() => removeQuestion(question._id)}>-</button>
+                            ) : (
+                                <button className="admin-item__button" onClick={() => addQuestion(question._id)}>+</button>
+                            )}
+                        </div>
+                    ))}
+                </div>
+                <button className="admin__button" onClick={() => handleFunc(testTitle, questionsIds)}>
+                    Редактировать
                 </button>
             </div>
         </div>
     );
 };
 
-export default observer(NewQuestion);
+export default observer(EditTest);

@@ -1,4 +1,4 @@
-import MainImage from "../../../assets/main/main-image.PNG";
+import MainImage from "../../assets/main/main-image.PNG";
 import {Link} from "react-router-dom";
 
 const Main = () => {

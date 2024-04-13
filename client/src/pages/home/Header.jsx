@@ -1,5 +1,5 @@
 import {Link} from "react-router-dom";
-import UserIcon from "../../../assets/main/user-icon.png";
+import UserIcon from "../../assets/main/user-icon.png";
 const Header = () => {
     return (
         <header className="header">

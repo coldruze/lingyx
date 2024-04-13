@@ -1,11 +1,11 @@
-import {useAuth} from "../../../utils/authUtils";
+import {useAuth} from "../../utils/authUtils";
 import LoginForm from "../auth/LoginForm";
 import React, {useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import TestIcon from "../../../assets/app/test-icon.png";
-import ProfileIcon from "../../../assets/app/profile-icon.png";
+import TestIcon from "../../assets/app/test-icon.png";
+import ProfileIcon from "../../assets/app/profile-icon.png";
 import {observer} from "mobx-react-lite";
-import SettingsIcon from "../../../assets/app/settings-icon.png";
+import SettingsIcon from "../../assets/app/settings-icon.png";
 
 const EditProfile = () => {
     const navigate = useNavigate();

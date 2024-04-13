@@ -1,21 +1,15 @@
 import {observer} from "mobx-react-lite";
 import {Link, useNavigate} from "react-router-dom";
-import TestIcon from "../../../assets/app/test-icon.png";
-import ProfileIcon from "../../../assets/app/profile-icon.png";
+import TestIcon from "../../assets/app/test-icon.png";
+import ProfileIcon from "../../assets/app/profile-icon.png";
 import React from "react";
-import {useAuth} from "../../../utils/authUtils";
+import {useAuth} from "../../utils/authUtils";
 import LoginForm from "../auth/LoginForm";
-import SettingsIcon from "../../../assets/app/settings-icon.png";
+import SettingsIcon from "../../assets/app/settings-icon.png";
 
-const AdminQuestions = () => {
+const AdminTests = () => {
     const navigate = useNavigate();
-    const {store, isAuth, isLoading} = useAuth();
-
-    if (isLoading) {
-        return (
-            <h1>Загрузка...</h1>
-        );
-    }
+    const {store, isAuth} = useAuth();
 
     if (!isAuth) {
         return (
@@ -34,9 +28,20 @@ const AdminQuestions = () => {
         )
     }
 
-    const editedQuestionSetting = (question) => {
-        store.setEditedQuestion(question);
-        navigate(`/admin/questions/edit/${question._id}`);
+    const editedTestSetting = async (testTitle) => {
+        await store.getQuestionsByTestTitle(testTitle);
+
+        let questionsIds = [];
+        store.questions.map((question) => {
+            questionsIds.push(question._id);
+            return null;
+        });
+
+        const test = {title: testTitle, questions: questionsIds};
+
+        store.setEditedTest(test);
+        await store.getAllQuestions();
+        navigate(`/admin/tests/edit/${test.title}`);
     };
 
     return (
@@ -52,7 +57,7 @@ const AdminQuestions = () => {
                     </Link>
                 </div>
                 <div>
-                    <Link to="/profile" className="sidebar__link">
+                    <Link to="/settings" className="sidebar__link">
                         <img src={SettingsIcon} alt=""/>
                         <span>Настройки</span>
                     </Link>
@@ -65,15 +70,15 @@ const AdminQuestions = () => {
                     : null}
             </div>
             <div className="admin">
-                <button className="admin__button" onClick={() => navigate("/admin/questions/new")}>
-                    Добавить новый вопрос
+                <button className="admin__button" onClick={() => navigate("/admin/tests/new")}>
+                    Создать новый тест
                 </button>
                 <div>
-                    {store.allQuestions.map((question) => (
-                        <div className="admin-block" key={question._id}>
-                            <p>{question.text}</p>
-                            <button className="admin__button" onClick={() => store.deleteQuestion(question._id)}>Удалить</button>
-                            <button className="admin__button" onClick={() => editedQuestionSetting(question)}>Редактировать</button>
+                    {store.testsTitles.map((testTitle, index) => (
+                        <div className="admin-block" key={index}>
+                            <p>{testTitle}</p>
+                            <button className="admin__button" onClick={() => store.deleteTest(testTitle)}>Удалить</button>
+                            <button className="admin__button" onClick={() => editedTestSetting(testTitle)}>Редактировать</button>
                         </div>
                     ))}
                 </div>
@@ -82,4 +87,4 @@ const AdminQuestions = () => {
     );
 };
 
-export default observer(AdminQuestions);
+export default observer(AdminTests);

@@ -1,4 +1,4 @@
-import "../../../styles/index.scss"
+import "../../styles/index.scss"
 import Header from "./Header";
 import Main from "./Main";
 

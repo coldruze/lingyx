@@ -1,8 +1,10 @@
 import React, {useContext, useState} from 'react';
-import {Context} from "../../../index";
+import {Context} from "../../index";
 import {Link} from "react-router-dom";
 
-const LoginForm = () => {
+const RegisterForm = () => {
+    const [firstName, setFirstName] = useState("");
+    const [secondName, setSecondName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const {store} = useContext(Context);
@@ -11,6 +13,18 @@ const LoginForm = () => {
         <div className="auth">
             <div className="auth-form">
                 <h1>Привет)</h1>
+                <input className="auth__input"
+                       onChange={e => setFirstName(e.target.value)}
+                       value={firstName}
+                       type="text"
+                       placeholder="Имя"
+                />
+                <input className="auth__input"
+                       onChange={e => setSecondName(e.target.value)}
+                       value={secondName}
+                       type="text"
+                       placeholder="Фамилия"
+                />
                 <input className="auth__input"
                        onChange={e => setEmail(e.target.value)}
                        value={email}
@@ -24,14 +38,15 @@ const LoginForm = () => {
                        placeholder="Пароль"
                 />
                 <Link to="/app" className="auth__button-link">
-                    <button className="auth__button" onClick={() => store.login(email, password)}>
-                        Логин
+                    <button className="auth__button"
+                            onClick={() => store.registration(firstName, secondName, email, password)}>
+                        Регистрация
                     </button>
                 </Link>
                 <div className="auth-register">
-                    <p>Ещё не зарегистрированы?</p>
+                    <p>Уже есть аккаунт?</p>
                     <p className="auth-register__button">
-                        <Link to="/register" className="auth-register__link">Регистрация</Link>
+                        <Link to="/login" className="auth-register__link">Авторизоваться</Link>
                     </p>
                 </div>
             </div>
@@ -39,4 +54,4 @@ const LoginForm = () => {
     );
 };
 
-export default LoginForm;
+export default RegisterForm;

@@ -1,11 +1,11 @@
 import React from 'react';
-import {useAuth} from '../../../utils/authUtils';
+import {useAuth} from '../../utils/authUtils';
 import LoginForm from "../auth/LoginForm";
 import {Link, useNavigate} from "react-router-dom";
 import {observer} from "mobx-react-lite";
-import TestIcon from "../../../assets/app/test-icon.png";
-import ProfileIcon from "../../../assets/app/profile-icon.png";
-import SettingsIcon from "../../../assets/app/settings-icon.png";
+import TestIcon from "../../assets/app/test-icon.png";
+import ProfileIcon from "../../assets/app/profile-icon.png";
+import SettingsIcon from "../../assets/app/settings-icon.png";
 
 const Application = () => {
     const navigate = useNavigate();

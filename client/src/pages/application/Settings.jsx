@@ -1,13 +1,13 @@
-import {useAuth} from "../../../utils/authUtils";
-import LoginForm from "../auth/LoginForm";
-import React from "react";
+import TestIcon from "../../assets/app/test-icon.png";
 import {Link, useNavigate} from "react-router-dom";
-import TestIcon from "../../../assets/app/test-icon.png";
-import ProfileIcon from "../../../assets/app/profile-icon.png";
+import ProfileIcon from "../../assets/app/profile-icon.png";
+import React from "react";
+import {useAuth} from "../../utils/authUtils";
+import LoginForm from "../auth/LoginForm";
 import {observer} from "mobx-react-lite";
-import SettingsIcon from "../../../assets/app/settings-icon.png";
+import SettingsIcon from "../../assets/app/settings-icon.png";
 
-const Admin = () => {
+const Settings = () => {
     const navigate = useNavigate();
     const {store, isAuth, isLoading} = useAuth();
 
@@ -25,18 +25,11 @@ const Admin = () => {
         );
     }
 
-    if (!store.user.roles.includes("admin")) {
-        return (
-            <div>
-                <h1>У вас нет прав на просмотр этой страницы</h1>
-                <Link to="/profile">Вернуться к профилю</Link>
-            </div>
-        )
-    }
-
-    // const handleTestsFunc = () => {
-    //
-    // };
+    const handleFunc = async () => {
+        await store.logout();
+        navigate("/");
+        window.location.reload();
+    };
 
     return (
         <div className="application">
@@ -63,16 +56,17 @@ const Admin = () => {
                     </div>
                     : null}
             </div>
-            <div className="admin">
-                <button className="admin__button" onClick={() => navigate("/admin/tests")}>
-                    Тесты
-                </button>
-                <button className="admin__button" onClick={() => navigate("/admin/questions")}>
-                    Вопросы
-                </button>
+            <div className="settings">
+                <h1>Настройки</h1>
+                <p>{`Имя: ${store.user.firstName}`}</p>
+                <p>{`Фамилия: ${store.user.secondName}`}</p>
+                <p>{`Почта: ${store.user.email}`}</p>
+
+                <button className="settings__button" onClick={() => navigate("/profile/edit")}>Редактировать профиль</button>
+                <button className="settings__button" onClick={() => handleFunc()}>Выйти</button>
             </div>
         </div>
     );
 };
 
-export default observer(Admin);
+export default observer(Settings);

@@ -1,18 +1,18 @@
 import {Route, Routes} from "react-router-dom";
-import Home from "../components/pages/home/Home";
-import LoginForm from "../components/pages/auth/LoginForm";
-import Application from "../components/pages/application/Application";
-import RegisterForm from "../components/pages/auth/RegisterForm";
-import Settings from "../components/pages/application/Settings";
-import TestPage from "../components/pages/application/TestPage";
-import EditProfile from "../components/pages/application/EditProfile";
-import Admin from "../components/pages/admin/Admin";
-import AdminTests from "../components/pages/admin/AdminTests";
-import NewTest from "../components/pages/admin/NewTest";
-import AdminQuestions from "../components/pages/admin/AdminQuestions";
-import NewQuestion from "../components/pages/admin/NewQuestion";
-import EditQuestion from "../components/pages/admin/EditQuestion";
-import EditTest from "../components/pages/admin/EditTest";
+import Home from "../pages/home/Home";
+import LoginForm from "../pages/auth/LoginForm";
+import Application from "../pages/application/Application";
+import RegisterForm from "../pages/auth/RegisterForm";
+import Settings from "../pages/application/Settings";
+import TestPage from "../pages/application/TestPage";
+import EditProfile from "../pages/application/EditProfile";
+import Admin from "../pages/admin/Admin";
+import AdminTests from "../pages/admin/AdminTests";
+import NewTest from "../pages/admin/NewTest";
+import AdminQuestions from "../pages/admin/AdminQuestions";
+import NewQuestion from "../pages/admin/NewQuestion";
+import EditQuestion from "../pages/admin/EditQuestion";
+import EditTest from "../pages/admin/EditTest";
 
 export function AuthRoutes() {
     return (
