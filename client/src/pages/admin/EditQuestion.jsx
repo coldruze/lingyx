@@ -32,7 +32,7 @@ const EditQuestion = () => {
         return (
             <div>
                 <h1>У вас нет прав на просмотр этой страницы</h1>
-                <Link to="/profile">Вернуться к профилю</Link>
+                <Link to="/settings">Вернуться к профилю</Link>
             </div>
         )
     }
