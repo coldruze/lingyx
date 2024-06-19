@@ -12,7 +12,7 @@ const RegisterForm = () => {
     return (
         <div className="auth">
             <div className="auth-form">
-                <h1>Привет)</h1>
+                <h1>Привет</h1>
                 <input className="auth__input"
                        onChange={e => setFirstName(e.target.value)}
                        value={firstName}
