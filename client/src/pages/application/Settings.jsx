@@ -38,7 +38,7 @@ const Settings = () => {
                     LingyX
                 </div>
                 <div>
-                    <Link to="/app" className="sidebar__link">
+                    <Link to="/" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
                         <span>Главная</span>
                     </Link>

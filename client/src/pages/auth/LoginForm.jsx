@@ -23,7 +23,7 @@ const LoginForm = () => {
                        type="password"
                        placeholder="Пароль"
                 />
-                <Link to="/app" className="auth__button-link">
+                <Link to="/" className="auth__button-link">
                     <button className="auth__button" onClick={() => store.login(email, password)}>
                         Логин
                     </button>

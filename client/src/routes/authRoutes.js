@@ -1,5 +1,4 @@
 import {Route, Routes} from "react-router-dom";
-import Home from "../pages/home/Home";
 import LoginForm from "../pages/auth/LoginForm";
 import Application from "../pages/application/Application";
 import RegisterForm from "../pages/auth/RegisterForm";
@@ -17,10 +16,9 @@ import EditTest from "../pages/admin/EditTest";
 export function AuthRoutes() {
     return (
         <Routes>
-            <Route path="/" element={<Home/>}/>
+            <Route path="/" element={<Application/>}/>
             <Route path="register" element={<RegisterForm/>}/>
             <Route path="login" element={<LoginForm/>}/>
-            <Route path="app" element={<Application/>}/>
             <Route path="settings" element={<Settings/>}/>
             <Route path="profile/edit" element={<EditProfile/>}/>
             <Route path="tests/:title" element={<TestPage/>}/>

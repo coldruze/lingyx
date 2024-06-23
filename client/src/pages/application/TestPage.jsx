@@ -61,7 +61,7 @@ const TestPage = () => {
                             LingyX
                         </div>
                         <div>
-                            <Link to="/app" className="sidebar__link">
+                            <Link to="/" className="sidebar__link">
                                 <img src={TestIcon} alt=""/>
                                 <span>Главная</span>
                             </Link>
@@ -103,8 +103,8 @@ const TestPage = () => {
                             ))}
                         </div>
                         {!testCompleted && <button className="test-finish__button" onClick={handleTestCompletion}>Завершить тест</button>}
-                        {testCompleted && <div>Результат: {score}/{store.questions.length}</div>}
-                        {testCompleted && <button className="test-finish__button" onClick={() => navigate("/app")}>Вернуться к тестам</button>}
+                        {testCompleted && <div style={{ fontSize: '24px', marginBottom: '10px' }}>Результат:{(score / store.questions.length * 100).toFixed(1)}% ({score}/{store.questions.length})</div>}
+                        {testCompleted && <button className="test-finish__button" onClick={() => navigate("/")}>Вернуться к тестам</button>}
                     </div>
                 </div>
             )}

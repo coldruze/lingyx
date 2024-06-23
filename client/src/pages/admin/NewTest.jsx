@@ -55,7 +55,7 @@ const NewTest = () => {
                     LingyX
                 </div>
                 <div>
-                    <Link to="/app" className="sidebar__link">
+                    <Link to="/" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
                         <span>Главная</span>
                     </Link>
@@ -86,9 +86,9 @@ const NewTest = () => {
                         <div className="admin-item" key={question._id}>
                             <p>{question.text}</p>
                             {questionsIds.includes(question._id) ? (
-                                <button className="admin-item__button" onClick={() => removeQuestion(question._id)}>-</button>
+                                <button className="admin-item__button" onClick={() => removeQuestion(question._id)}>Удалить</button>
                             ) : (
-                                <button className="admin-item__button" onClick={() => addQuestion(question._id)}>+</button>
+                                <button className="admin-item__button" onClick={() => addQuestion(question._id)}>Добавить</button>
                             )}
                         </div>
                     ))}

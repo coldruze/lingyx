@@ -37,7 +37,7 @@ const RegisterForm = () => {
                        type="password"
                        placeholder="Пароль"
                 />
-                <Link to="/app" className="auth__button-link">
+                <Link to="/" className="auth__button-link">
                     <button className="auth__button"
                             onClick={() => store.registration(firstName, secondName, email, password)}>
                         Регистрация

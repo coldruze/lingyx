@@ -34,10 +34,6 @@ const Admin = () => {
         )
     }
 
-    // const handleTestsFunc = () => {
-    //
-    // };
-
     return (
         <div className="application">
             <div className="sidebar">
@@ -45,7 +41,7 @@ const Admin = () => {
                     LingyX
                 </div>
                 <div>
-                    <Link to="/app" className="sidebar__link">
+                    <Link to="/" className="sidebar__link">
                         <img src={TestIcon} alt=""/>
                         <span>Главная</span>
                     </Link>
